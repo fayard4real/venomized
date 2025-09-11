@@ -3,5 +3,6 @@
 members = [
     "client", 
     "server",
-    "./crates/protocol",
+    "./crates/protocol", 
+    "crates/buffer",
 ]
