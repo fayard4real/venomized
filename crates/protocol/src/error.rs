@@ -1,5 +1,3 @@
-// TODO: add errors
-
 #[derive(Debug)]
 pub enum ProtocolViolation {
     VarIntTooLong,
