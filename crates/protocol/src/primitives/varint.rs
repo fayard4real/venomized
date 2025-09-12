@@ -25,7 +25,6 @@ impl Codec for VarInt {
         let mut num_read = 0;
         let mut result: i32 = 0;
         loop {
-            println!("NUMREADNUMREAD!!!!{}", num_read);
             let byte = reader.read_u8()?;
             let value = (byte & 0b0111_1111) as i32;
             result |= value << (7 * num_read);
