@@ -47,5 +47,5 @@ impl Snake {
 
         self.body.pop_back();
     }
-
+    
 }

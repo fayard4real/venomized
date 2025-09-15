@@ -1,4 +1,9 @@
-pub enum HandshakeServerbound {}
+//! All IDs that will be used by the server and client 
+//! to exchange information are stored here.
+
+pub enum HandshakeServerbound {
+    Handshake
+}
 
 pub enum LoginServerbound {}
 
