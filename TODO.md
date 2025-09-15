@@ -6,5 +6,5 @@
 ## Phase 2: The Wire (Networking)
 - todo
 
-## Phase 3: The Pretty Picture (Bevy)
+## Phase 3: The Pretty Picture (CLI)
 - todo
