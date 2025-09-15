@@ -92,6 +92,30 @@ mod tests {
         assert_eq!(world.grid.len(), (1000 * 1000) as usize)
     }
 
+    // TODO all
+    #[test]
+    fn world_get_tile_success() {}
+
+    #[test]
+    fn world_set_tile_success() {}
+
+    #[test]
+    fn test_pos_to_index_conversion() {
+        let world = World::new(10, 10);
+
+        assert_eq!(world.pos(GridPos { x: 0, y: 0 }), Some(0));
+        assert_eq!(world.pos(GridPos { x: 9, y: 0 }), Some(9));
+        assert_eq!(world.pos(GridPos { x: 0, y: 9 }), Some(90));
+        assert_eq!(world.pos(GridPos { x: 9, y: 9 }), Some(99));
+    }
+
+    #[test]
+    fn world_pos_fail() {
+        let world = World::new(10, 10);
+
+        assert_eq!(world.pos(GridPos { x: 10, y: 5 }), None);
+    }
+
     #[test]
     fn world_height_success() {
         let world = World::new(1000, 1000);

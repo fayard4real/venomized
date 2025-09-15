@@ -1,3 +1,7 @@
+use std::collections::VecDeque;
+
+use crate::world::world::GridPos;
+
 pub enum Direction {
     North,
     South,
@@ -19,7 +23,29 @@ pub struct Snake {
     /// 2. To remove the tail
     /// 3. Prediction??
     pub direction: Direction,
-    // TODO: add how to contain the Snake position
-    // TODO: make methods for add tail, remove tail
-    // and something like that
+    
+    // TODO: maybe remove GridPos from world? 
+    pub body: VecDeque<GridPos>
+}
+
+impl Snake {
+
+    /// Absolutely genius and simple function which
+    /// Have a O(1) time for operation, and do ALL
+    /// logical of movement for game tick
+    pub fn move_forward(&mut self) {
+        let head = self.body.front().expect("Snake has no head!");
+
+        let new_head = match self.direction {
+            Direction::North => GridPos { x: head.x, y: head.y - 1 },
+            Direction::South => GridPos { x: head.x, y: head.y + 1 },
+            Direction::East   => GridPos { x: head.x + 1, y: head.y },
+            Direction::West   => GridPos { x: head.x - 1, y: head.y },
+        };
+
+        self.body.push_front(new_head);
+
+        self.body.pop_back();
+    }
+
 }
