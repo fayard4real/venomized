@@ -1,5 +1,4 @@
-use std::{collections::HashMap, sync::Arc};
-use tokio::sync::RwLock;
+use std::{collections::HashMap};
 
 use crate::world::{
     chunk::Chunk,
@@ -13,7 +12,7 @@ pub enum WorldError {
 
 type ChunkId = u32; // Remove magic numbers
 
-type ChunkMap = HashMap<ChunkId, Arc<RwLock<Chunk>>>;
+type ChunkMap = HashMap<ChunkId, Chunk>;
 
 /// World provides chunk storage using a hash map,
 /// which stores the key (ChunkId)
@@ -48,7 +47,7 @@ impl World {
             let chunks_total = (width / WIDTH) * (height / HEIGHT);
 
             for i in 0..chunks_total {
-                let chunk = Arc::new(RwLock::new(Chunk::new()));
+                let chunk = Chunk::new();
                 chunks.insert(i, chunk);
             }
             Ok(World { 
