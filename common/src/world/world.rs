@@ -1,4 +1,5 @@
-use std::collections::HashMap;
+use std::{collections::HashMap, sync::Arc};
+use tokio::sync::RwLock;
 
 use crate::world::{
     chunk::Chunk,
@@ -12,7 +13,7 @@ pub enum WorldError {
 
 type ChunkId = u32; // Remove magic numbers
 
-type ChunkMap = HashMap<ChunkId, Chunk>;
+type ChunkMap = HashMap<ChunkId, Arc<RwLock<Chunk>>>;
 
 /// World provides chunk storage using a hash map,
 /// which stores the key (ChunkId)
@@ -24,6 +25,13 @@ type ChunkMap = HashMap<ChunkId, Chunk>;
 /// which will be necessary in many cases
 #[derive(Debug)]
 pub struct World {
+
+    /// Global width of the playing field
+    pub width: u32, 
+
+    /// Global height of the playing field
+    pub height: u32,
+
     pub chunks: ChunkMap, // TODO: add Rwlock from Tokio??? maybe...
 }
 
@@ -40,14 +48,19 @@ impl World {
             let chunks_total = (width / WIDTH) * (height / HEIGHT);
 
             for i in 0..chunks_total {
-                let chunk = Chunk::new();
+                let chunk = Arc::new(RwLock::new(Chunk::new()));
                 chunks.insert(i, chunk);
             }
-            Ok(World { chunks: chunks })
+            Ok(World { 
+                width: width, 
+                height: height, 
+                chunks: chunks 
+            })
         } else {
             Err(WorldError::NotMultipleOf16Error)
         }
     }
+
 }
 
 #[cfg(test)]
