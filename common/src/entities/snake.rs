@@ -1,6 +1,6 @@
 use std::collections::VecDeque;
 
-use crate::world::world::GridPos;
+use crate::world::chunk::GridPos;
 
 pub enum Direction {
     North,
