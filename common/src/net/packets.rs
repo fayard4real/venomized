@@ -1,17 +1,15 @@
-//! All IDs that will be used by the server and client 
+//! All IDs that will be used by the server and client
 //! to exchange information are stored here.
 
 // #[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize, num_enum::TryFromPrimitive)]
 pub enum LoginServerbound {
-    Login = 0
+    Login = 0,
 }
 
-pub enum ConfigureServerbound {
-
-}
+pub enum ConfigureServerbound {}
 
 pub enum PlayServerbound {
-    TurnSnake
+    TurnSnake,
 }
 
 pub enum LoginClientbound {}
@@ -38,12 +36,12 @@ struct SpawnSnake {
     id: u64 // 4-8 bytes
     x:  u32 // 1-4 bytes
     y:  u32 // 1 - 4
-    direction: Direction // 1 
+    direction: Direction // 1
 } // 7-17 bytes
 
 struct RemoveSnake {
     array_of_ids: Array<id>
-} // id = u64 = 4 bytes +- 
+} // id = u64 = 4 bytes +-
 
 struct UpdateApple {
     pos_x: u32 //(1-4 bytes)

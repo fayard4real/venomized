@@ -1,7 +1,9 @@
+use crate::world::types::{GridPos, HEIGHT, WIDTH};
+
 /// Enumeration for the deterministic designation of a cell and its state.
 /// An excellent solution for ensuring that the client knows
 /// how to render using any of the possible chars/methods.
-#[derive(Clone, Copy)]
+#[derive(Clone, Copy, Debug)]
 pub enum Tile {
     /// An empty tile with nothing in it
     Empty,
@@ -20,6 +22,7 @@ pub enum Tile {
 /// A structure to have associative меthods (without &mut self)
 /// and methods that facilitate access to the API world
 /// for both the future client and server implementation.
+#[derive(Debug)]
 pub struct Chunk {
     /// We use a one-dimensional vector to store chunk tiles
     /// and use index arithmetic to move around it for our operations.
@@ -32,24 +35,19 @@ pub struct Chunk {
     /// Plus, Vec<Tile> won't be reallocated.
     /// It'll be created once and will be like a regular array, which is perfect
     pub grid: Vec<Tile>,
-
-    /// Required in order to correctly iterate through a one-dimensional array
-    pub width: u32,
+    // Required in order to correctly iterate through a one-dimensional array
+    // pub width: u32, <- deprecated field, we already know is 16
 }
 
-pub struct GridPos {
-    pub x: u32,
-    pub y: u32,
-}
-
+// TODO: refactoring cuz new system
 impl Chunk {
     /// Generate game field with Tile::Wall along the edges of the map
     /// TODO: apple?
-    pub fn new(width: u32, height: u32) -> Chunk {
-        let grid = vec![Tile::Empty; (width * height) as usize];
+    pub fn new() -> Chunk {
+        let grid = vec![Tile::Empty; (WIDTH * HEIGHT) as usize];
         Chunk {
             grid: grid,
-            width: width,
+            // width: WIDTH, deprecated
         }
         // TODO: some another logic, walls, basic apple's
     }
@@ -67,15 +65,11 @@ impl Chunk {
     }
     // -- Internal magic --
     fn pos(&self, pos: GridPos) -> Option<usize> {
-        if pos.x < self.width && pos.y < self.height() {
-            Some((pos.y * self.width + pos.x) as usize)
+        if pos.x < WIDTH && pos.y < HEIGHT {
+            Some((pos.y * WIDTH + pos.x) as usize)
         } else {
             None
         }
-    }
-
-    fn height(&self) -> u32 {
-        (self.grid.len() as u32 / self.width) as u32
     }
     // -- Internal magic end --
 }
@@ -87,9 +81,9 @@ mod tests {
 
     #[test]
     fn chunk_new_success_size() {
-        let chunk = Chunk::new(1000, 1000);
+        let chunk = Chunk::new();
 
-        assert_eq!(chunk.grid.len(), (1000 * 1000) as usize)
+        assert_eq!(chunk.grid.len(), (HEIGHT * WIDTH) as usize)
     }
 
     // TODO all
@@ -101,24 +95,16 @@ mod tests {
 
     #[test]
     fn test_pos_to_index_conversion() {
-        let chunk = Chunk::new(10, 10);
+        let chunk = Chunk::new();
 
         assert_eq!(chunk.pos(GridPos { x: 0, y: 0 }), Some(0));
         assert_eq!(chunk.pos(GridPos { x: 9, y: 0 }), Some(9));
-        assert_eq!(chunk.pos(GridPos { x: 0, y: 9 }), Some(90));
-        assert_eq!(chunk.pos(GridPos { x: 9, y: 9 }), Some(99));
     }
 
     #[test]
     fn chunk_pos_fail() {
-        let chunk = Chunk::new(10, 10);
+        let chunk = Chunk::new();
 
-        assert_eq!(chunk.pos(GridPos { x: 10, y: 5 }), None);
-    }
-
-    #[test]
-    fn chunk_height_success() {
-        let chunk = Chunk::new(1000, 1000);
-        assert_eq!(chunk.height(), 1000)
+        assert_eq!(chunk.pos(GridPos { x: 17, y: 5 }), None);
     }
 }

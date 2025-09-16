@@ -15,6 +15,9 @@ version = "0.1.0"
 [[package]]
 name = "common"
 version = "0.1.0"
+dependencies = [
+ "assert_matches",
+]
 
 [[package]]
 name = "crow-client"
