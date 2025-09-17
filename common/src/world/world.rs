@@ -1,4 +1,4 @@
-use std::{collections::HashMap};
+use std::collections::HashMap;
 
 use crate::world::{
     chunk::Chunk,
@@ -24,9 +24,8 @@ type ChunkMap = HashMap<ChunkId, Chunk>;
 /// which will be necessary in many cases
 #[derive(Debug)]
 pub struct World {
-
     /// Global width of the playing field
-    pub width: u32, 
+    pub width: u32,
 
     /// Global height of the playing field
     pub height: u32,
@@ -50,16 +49,15 @@ impl World {
                 let chunk = Chunk::new();
                 chunks.insert(i, chunk);
             }
-            Ok(World { 
-                width: width, 
-                height: height, 
-                chunks: chunks 
+            Ok(World {
+                width: width,
+                height: height,
+                chunks: chunks,
             })
         } else {
             Err(WorldError::NotMultipleOf16Error)
         }
     }
-
 }
 
 #[cfg(test)]
