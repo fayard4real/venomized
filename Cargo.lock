@@ -788,6 +788,7 @@ version = "0.1.0"
 name = "venomized-server"
 version = "0.1.0"
 dependencies = [
+ "common",
  "quinn",
  "tokio",
 ]

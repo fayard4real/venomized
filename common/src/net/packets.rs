@@ -3,22 +3,22 @@
 
 // #[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize, num_enum::TryFromPrimitive)]
 pub enum LoginServerbound {
-    /// Initiating dialogue with the server 
+    /// Initiating dialogue with the server
     /// and providing basic information
     Login = 0,
 }
 
 pub enum ConfigureServerbound {
-    /// The package needed for the server to calculate 
+    /// The package needed for the server to calculate
     /// the number of chunks that need to be sent to the client.
-    /// 
-    /// **TODO:** It is assumed that later I will be able 
+    ///
+    /// **TODO:** It is assumed that later I will be able
     /// to calculate the window size on the client and send
-    /// this value to the server at the `Configure` and `Play` 
+    /// this value to the server at the `Configure` and `Play`
     /// stages when the window size changes.
-    /// 
-    /// *window - refers to the size of a regular terminal/stdout window. 
-    SetDrawDistance = 0
+    ///
+    /// *window - refers to the size of a regular terminal/stdout window.
+    SetDrawDistance = 0,
 }
 
 pub enum PlayServerbound {
@@ -27,15 +27,15 @@ pub enum PlayServerbound {
 }
 
 pub enum LoginClientbound {
-    /// The package is required to switch 
+    /// The package is required to switch
     /// the state to the `Configuration` stage.
-    LoginSuccess = 0
+    LoginSuccess = 0,
 }
 
 pub enum ConfigureClientbound {
-    /// The package is required to switch 
+    /// The package is required to switch
     /// the state to the `Play` stage.
-    ConfigureAcknowledged = 0
+    ConfigureAcknowledged = 0,
 }
 
 pub enum PlayClientbound {
@@ -57,16 +57,16 @@ pub enum PlayClientbound {
     /// to customers in a compact form.
     AppleSpawnButch = 3,
 
-    /// The package needed for the server to calculate 
+    /// The package needed for the server to calculate
     /// the number of chunks that need to be sent to the client.
-    /// 
-    /// **TODO:** It is assumed that later I will be able 
+    ///
+    /// **TODO:** It is assumed that later I will be able
     /// to calculate the window size on the client and send
-    /// this value to the server at the `Configure` and `Play` 
+    /// this value to the server at the `Configure` and `Play`
     /// stages when the window size changes.
-    /// 
-    /// *window - refers to the size of a regular terminal/stdout window. 
-    SetDrawDistance = 4
+    ///
+    /// *window - refers to the size of a regular terminal/stdout window.
+    SetDrawDistance = 4,
 }
 
 /*

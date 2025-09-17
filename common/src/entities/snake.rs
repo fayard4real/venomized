@@ -1,21 +1,11 @@
 use std::collections::VecDeque;
 
-use crate::world::types::GridPos;
-
-pub enum Direction {
-    North,
-    South,
-    West,
-    East,
-}
+use crate::{entities::types::Direction, world::types::GridPos};
 
 /// The main entity in the game,
 /// which is stored on both the
 /// client and server sides with the same structure.
 pub struct Snake {
-    /// id for identifying clients on the server and among themselves
-    pub id: u64,
-
     /// A variable that is necessary in many cases,
     /// indicating the direction in which our snake is moving.
     ///
@@ -29,6 +19,15 @@ pub struct Snake {
 }
 
 impl Snake {
+    pub fn new() -> Snake {
+        // TODO: randomize direction???
+
+        Snake {
+            direction: Direction::North, // TODO: test variant
+            body: VecDeque::new(),
+        }
+    }
+
     /// Absolutely genius and simple function which
     /// Have a O(1) time for operation, and do ALL
     /// logical of movement for game tick
