@@ -7,6 +7,12 @@ use crate::{
     error::{ProtocolError, ProtocolViolation},
 };
 
+impl From<i32> for VarInt {
+    fn from(val: i32) -> Self {
+        VarInt(val)
+    }
+}
+
 const VARINT_LENGTH: i8 = 5;
 
 #[derive(Debug)]

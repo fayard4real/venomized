@@ -29,6 +29,11 @@ pub trait BufferMut: Write {
     fn write_i32_be(&mut self, val: i32) -> Result<(), std::io::Error> {
         self.write_all(&val.to_be_bytes())
     }
+
+    fn extend_from_slice(&mut self, val: &[u8]) -> Result<(), std::io::Error> {
+        self.extend_from_slice(val)?;
+        Ok(())
+    }
 }
 
 impl<R: Read + ?Sized> Buffer for R {}

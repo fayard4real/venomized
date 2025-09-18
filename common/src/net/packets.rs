@@ -1,6 +1,8 @@
 //! All IDs that will be used by the server and client
 //! to exchange information are stored here.
 
+use bincode::{Decode, Encode};
+
 // #[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize, num_enum::TryFromPrimitive)]
 pub enum LoginServerbound {
     /// Initiating dialogue with the server
@@ -67,6 +69,11 @@ pub enum PlayClientbound {
     ///
     /// *window - refers to the size of a regular terminal/stdout window.
     SetDrawDistance = 4,
+}
+
+#[derive(Decode, Encode)]
+pub struct Login {
+    pub username: String,
 }
 
 /*

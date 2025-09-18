@@ -4,6 +4,7 @@ version = "0.1.0"
 edition = "2024"
 
 [dependencies]
+bincode = {version = "2.0.1", features = ["serde"]}
 
 [dev-dependencies]
 assert_matches = "1.5.0"

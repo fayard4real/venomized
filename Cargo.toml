@@ -5,4 +5,5 @@ members = [
     "server",
     "common", 
     "viz",
+    "crates/protocol"
 ]
