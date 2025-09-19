@@ -18,7 +18,34 @@ impl Codec for StringProto {
         let length = string_bytes.len();
 
         VarInt::from(length as i32).encode(writer)?;
-        writer.extend_from_slice(string_bytes)?;
+        writer.write_all(string_bytes)?;
+
+        Ok(())
+    }
+}
+
+#[cfg(test)]
+mod tests {
+
+    use super::*;
+
+    #[test]
+    fn stringproto_roundtrip() -> Result<(),ProtocolError> {
+        // Mock binary string
+        let mut stream: Vec<u8> = Vec::new();
+        VarInt(11).encode(&mut stream)?;
+        let str_test = "Hello world".to_string();
+        stream.extend_from_slice(str_test.as_bytes());
+        
+        // our buffer
+        let mut buf = &stream[..];
+        let str = StringProto::decode(&mut buf)?;
+
+        assert_eq!(str.0, str_test);
+        let test_buf_test = &stream[..];
+        let mut test_buf: Vec<u8> = Vec::new();
+        str.encode(&mut test_buf)?;
+        assert_eq!(test_buf, test_buf_test);
 
         Ok(())
     }
