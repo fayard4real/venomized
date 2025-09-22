@@ -9,6 +9,9 @@ use crate::{
 
 const VARLONG_LENGTH: i8 = 10;
 
+/// variable long = 64-bits integer
+/// Defines the implementation of variable integer from protocol buffer
+/// See more -> https://protobuf.dev/programming-guides/encoding/#varints
 #[derive(Debug)]
 pub struct VarLong(pub i64);
 

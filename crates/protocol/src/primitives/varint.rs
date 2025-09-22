@@ -15,6 +15,9 @@ impl From<i32> for VarInt {
 
 const VARINT_LENGTH: i8 = 5;
 
+/// variable integer = 32-bits integer
+/// Defines the implementation of variable integer from protocol buffer
+/// See more -> https://protobuf.dev/programming-guides/encoding/#varints
 #[derive(Debug)]
 pub struct VarInt(pub i32);
 

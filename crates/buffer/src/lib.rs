@@ -13,7 +13,7 @@ pub trait Buffer: Read {
         self.read_exact(&mut buf)?;
         Ok(u32::from_be_bytes(buf))
     }
-    
+
     fn read_i32_be(&mut self) -> Result<i32, std::io::Error> {
         let mut buf = [0; 4];
         self.read_exact(&mut buf)?;

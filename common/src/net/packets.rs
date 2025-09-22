@@ -1,9 +1,11 @@
 //! All IDs that will be used by the server and client
 //! to exchange information are stored here.
-//! 
+//!
 //! Also provide decode/encode methods for packets
 
 use protocol::primitives::{prefixed_array::PrefixedArray, varint::VarInt, varlong::VarLong};
+
+use crate::net::types::Id;
 
 // #[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize, num_enum::TryFromPrimitive)]
 pub enum LoginServerbound {
@@ -77,7 +79,7 @@ pub enum PlayClientbound {
 }
 
 // -- Type-safety aliases --
-// (zero structs haven't weight, its just like marker) 
+// (zero structs haven't weight, its just like marker)
 pub struct Login;
 pub struct SetDrawDistanceConfigure;
 pub struct TurnSnake;
@@ -90,7 +92,7 @@ pub struct RemoveEntities;
 pub struct UpdateEntityPositionAndDirection;
 pub struct AppleSpawnButch;
 pub struct SetDrawDistancePlay;
-// -- Type-safety aliases end -- 
+// -- Type-safety aliases end --
 
 // -- Packet payloads --
 pub struct LoginData {}
@@ -100,20 +102,20 @@ pub struct TurnSnakeData {}
 pub struct LoginSuccessData;
 pub struct ConfigureAcknowledgedData;
 pub struct SynchonizePositionAndDirectionData {
-    // TODO: x, y, direction 
+    // TODO: x, y, direction
+    pub x: VarInt, // TODO: bad idea use signed integer for this things
+    pub y: VarInt,
 }
 pub struct SpawnEntityData {
-    pub id: VarLong // id = u64, but for now its magic number. TODO
-    // TODO: add the absolute position x y and direction
+    pub id: Id, // TODO: add the absolute position x y and direction
 }
 pub struct RemoveEntitiesData {
-    pub entities: PrefixedArray<VarLong>
+    pub entities: PrefixedArray<Id>,
 }
-pub struct UpdateEntityPositionAndDirectionData{}
-pub struct AppleSpawnButchData{}
-pub struct SetDrawDistancePlayData{}
+pub struct UpdateEntityPositionAndDirectionData {}
+pub struct AppleSpawnButchData {}
+pub struct SetDrawDistancePlayData {}
 // -- Packet payloads end --
-
 
 /*
 struct Login {

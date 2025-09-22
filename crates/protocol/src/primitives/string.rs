@@ -13,7 +13,10 @@ impl Codec for StringProto {
 
         Ok(StringProto(data))
     }
-    fn encode(&self, writer: &mut impl buffer::BufferMut) -> Result<(), crate::error::ProtocolError> {
+    fn encode(
+        &self,
+        writer: &mut impl buffer::BufferMut,
+    ) -> Result<(), crate::error::ProtocolError> {
         let string_bytes = self.0.as_bytes();
         let length = string_bytes.len();
 
@@ -30,13 +33,13 @@ mod tests {
     use super::*;
 
     #[test]
-    fn stringproto_roundtrip() -> Result<(),ProtocolError> {
+    fn stringproto_roundtrip() -> Result<(), ProtocolError> {
         // Mock binary string
         let mut stream: Vec<u8> = Vec::new();
         VarInt(11).encode(&mut stream)?;
         let str_test = "Hello world".to_string();
         stream.extend_from_slice(str_test.as_bytes());
-        
+
         // our buffer
         let mut buf = &stream[..];
         let str = StringProto::decode(&mut buf)?;

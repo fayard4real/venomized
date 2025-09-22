@@ -4,13 +4,14 @@ use std::string::FromUtf8Error;
 pub enum ProtocolViolation {
     VarIntTooLong,
     VarLongTooLong,
+    NegativeUnsigned,
 }
 
 #[derive(Debug)]
 pub enum ProtocolError {
     Io(std::io::Error),
     ProtocolViolation(ProtocolViolation),
-    Utf8(FromUtf8Error)
+    Utf8(FromUtf8Error),
 }
 
 impl From<std::io::Error> for ProtocolError {
