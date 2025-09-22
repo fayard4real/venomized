@@ -14,7 +14,6 @@ pub struct Snake {
     /// 3. Prediction??
     pub direction: Direction,
 
-    // TODO: maybe remove GridPos from world?
     pub body: VecDeque<GridPos>,
 }
 

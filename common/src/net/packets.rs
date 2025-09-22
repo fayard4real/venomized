@@ -1,7 +1,9 @@
 //! All IDs that will be used by the server and client
 //! to exchange information are stored here.
+//! 
+//! Also provide decode/encode methods for packets
 
-use bincode::{Decode, Encode};
+use protocol::primitives::{prefixed_array::PrefixedArray, varint::VarInt, varlong::VarLong};
 
 // #[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize, num_enum::TryFromPrimitive)]
 pub enum LoginServerbound {
@@ -50,14 +52,17 @@ pub enum PlayClientbound {
     /// The package is sent to the client if another player (entity) enters their loading zone.
     SpawnEntity = 1,
 
+    /// Remove entities by provide prefiexed array of id's
+    RemoveEntities = 2,
+
     /// Applies to all players except oneself
-    UpdateEntityPositionAndDirection = 2,
+    UpdateEntityPositionAndDirection = 3,
 
     /// When another player (entity, snake) dies for any reason,
     /// all the apples they have eaten fall into the game world.
     /// This package is needed to deliver information about this
     /// to customers in a compact form.
-    AppleSpawnButch = 3,
+    AppleSpawnButch = 4,
 
     /// The package needed for the server to calculate
     /// the number of chunks that need to be sent to the client.
@@ -68,13 +73,47 @@ pub enum PlayClientbound {
     /// stages when the window size changes.
     ///
     /// *window - refers to the size of a regular terminal/stdout window.
-    SetDrawDistance = 4,
+    SetDrawDistance = 5,
 }
 
-#[derive(Decode, Encode)]
-pub struct Login {
-    pub username: String,
+// -- Type-safety aliases --
+// (zero structs haven't weight, its just like marker) 
+pub struct Login;
+pub struct SetDrawDistanceConfigure;
+pub struct TurnSnake;
+
+pub struct LoginSuccess;
+pub struct ConfigureAcknowledged;
+pub struct SynchonizePositionAndDirection;
+pub struct SpawnEntity;
+pub struct RemoveEntities;
+pub struct UpdateEntityPositionAndDirection;
+pub struct AppleSpawnButch;
+pub struct SetDrawDistancePlay;
+// -- Type-safety aliases end -- 
+
+// -- Packet payloads --
+pub struct LoginData {}
+pub struct SetDrawDistanceConfigureData {}
+pub struct TurnSnakeData {}
+
+pub struct LoginSuccessData;
+pub struct ConfigureAcknowledgedData;
+pub struct SynchonizePositionAndDirectionData {
+    // TODO: x, y, direction 
 }
+pub struct SpawnEntityData {
+    pub id: VarLong // id = u64, but for now its magic number. TODO
+    // TODO: add the absolute position x y and direction
+}
+pub struct RemoveEntitiesData {
+    pub entities: PrefixedArray<VarLong>
+}
+pub struct UpdateEntityPositionAndDirectionData{}
+pub struct AppleSpawnButchData{}
+pub struct SetDrawDistancePlayData{}
+// -- Packet payloads end --
+
 
 /*
 struct Login {
