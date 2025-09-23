@@ -18,14 +18,15 @@ impl PresenceSystem {
             presence_map: HashMap::new(),
         }
     }
-
-    pub fn add_chunk(&mut self, chunk_id: ChunkId) {
-        self.presence_map.insert(chunk_id, Vec::new());
+    // test it
+    pub fn add_chunks(&mut self, total_chunks: u32) {
+        for chunk_id in 0..total_chunks {
+            self.presence_map.insert(chunk_id, Vec::new());
+        }
     }
+    /// O(Σ S_i) algorithm
+    pub fn tick(&mut self, entity_manager: &mut EntityManager) {
 
-    pub fn tick(&mut self, entity_manager: EntityManager) {
-        // 1. need to have chunk relative position (local) of entity, not global
-        // 2. need to add/remove from some chunks
     }
 
     pub fn add_entity(&mut self) {}

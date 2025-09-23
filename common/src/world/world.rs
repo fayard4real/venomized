@@ -2,7 +2,7 @@ use std::collections::HashMap;
 
 use crate::world::{
     chunk::Chunk,
-    types::{HEIGHT, WIDTH},
+    types::{GridPos, HEIGHT, WIDTH},
 };
 
 #[derive(Debug)]
@@ -30,7 +30,7 @@ pub struct World {
     /// Global height of the playing field
     pub height: u32,
 
-    pub chunks: ChunkMap, // TODO: add Rwlock from Tokio??? maybe...
+    pub chunks: ChunkMap,
 }
 
 impl World {
@@ -57,6 +57,16 @@ impl World {
         } else {
             Err(WorldError::NotMultipleOf16Error)
         }
+    }
+
+    /// Returns the `ChunkId` based on global coordinates
+    pub fn chunk_at(&mut self, global_pos: GridPos) -> ChunkId {
+        5 // TODO: temp
+    }
+
+    /// Provides the local location on the grid based on global coordinates
+    pub fn get_local_pos(&mut self, global_pos: GridPos) -> (GridPos, Chunk) {
+        // TODO: temp
     }
 }
 

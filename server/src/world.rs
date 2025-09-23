@@ -10,8 +10,8 @@ pub struct World {
 impl World {
     pub fn new(width: u32, height: u32) -> World {
         World {
-            world: CommonWorld::new(width, height).unwrap(), // TODO, but, i think panic here not problem
-            entity_manager: EntityManager::new(), // Because, with incorrect world size world cannot exist :(
+            world: CommonWorld::new(width, height).unwrap,
+            entity_manager: EntityManager::new(),
         }
     }
 }
