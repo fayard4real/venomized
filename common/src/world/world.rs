@@ -59,15 +59,21 @@ impl World {
         }
     }
 
-    /// Returns the `ChunkId` based on global coordinates
-    pub fn chunk_at(&mut self, global_pos: GridPos) -> ChunkId {
-        5 // TODO: temp
+    /// Returns the `ChunkId` based on global coordinates.
+    /// Note: This method now takes an immutable reference `&self`
+    /// as it only needs to read the world's dimensions.
+    pub fn chunk_at(&self, global_pos: &GridPos) -> ChunkId {
+        let chunks_per_row = self.width / WIDTH;
+        let chunk_x = global_pos.x / WIDTH;
+        let chunk_y = global_pos.y / HEIGHT;
+
+        chunk_y * chunks_per_row + chunk_x
     }
 
-    /// Provides the local location on the grid based on global coordinates
-    pub fn get_local_pos(&mut self, global_pos: GridPos) -> (GridPos, Chunk) {
+    // Provides the local location on the grid based on global coordinates
+    /* pub fn get_local_pos(&mut self, global_pos: GridPos) -> (GridPos, Chunk) {
         // TODO: temp
-    }
+    } */
 }
 
 #[cfg(test)]
@@ -89,5 +95,41 @@ mod tests {
         let world = World::new(257, 256);
 
         assert_matches!(world, Err(WorldError::NotMultipleOf16Error));
+    }
+    #[test]
+    fn test_chunk_at_logic() {
+        // 1. Make the world 64x32 tiles.
+        // This is grid 4x2 chunks (64/16=4, 32/16=2).
+        // Total summary of chunks: 4 * 2 = 8 (ID from 0 to 7).
+        //
+        // It's look like:
+        // [0][1][2][3]
+        // [4][5][6][7]
+        let world = World::new(64, 32).unwrap();
+
+        // 2. Checking boundary and internal points for different chunks.
+
+        // --- first chunk (ID 0) ---
+        // Upper left corner of the world
+        assert_eq!(world.chunk_at(&GridPos { x: 0, y: 0 }), 0);
+        // Bottom right corner of the FIRST chunk
+        assert_eq!(world.chunk_at(&GridPos { x: 15, y: 15 }), 0);
+        // Random point inside
+        assert_eq!(world.chunk_at(&GridPos { x: 5, y: 10 }), 0);
+
+        // --- second chunk (ID 1) ---
+        // Upper left corner of the second chunk
+        assert_eq!(world.chunk_at(&GridPos { x: 16, y: 0 }), 1);
+        // random point inside
+        assert_eq!(world.chunk_at(&GridPos { x: 20, y: 5 }), 1);
+
+        // ...
+        assert_eq!(world.chunk_at(&GridPos { x: 0, y: 16 }), 4);
+        assert_eq!(world.chunk_at(&GridPos { x: 10, y: 20 }), 4);
+
+        assert_eq!(world.chunk_at(&GridPos { x: 30, y: 25 }), 5);
+
+        assert_eq!(world.chunk_at(&GridPos { x: 63, y: 31 }), 7);
+        assert_eq!(world.chunk_at(&GridPos { x: 48, y: 16 }), 7);
     }
 }

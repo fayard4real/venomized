@@ -26,7 +26,7 @@ pub struct Snake {
 
 impl Snake {
     pub fn new() -> Snake {
-        // TODO: randomize direction???
+        // TODO: randomize direction??? or propagation direction
 
         Snake {
             direction: Direction::North, // TODO: test variant

@@ -10,7 +10,7 @@ pub struct World {
 impl World {
     pub fn new(width: u32, height: u32) -> World {
         World {
-            world: CommonWorld::new(width, height).unwrap,
+            world: CommonWorld::new(width, height).unwrap(),
             entity_manager: EntityManager::new(),
         }
     }
