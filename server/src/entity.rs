@@ -1,11 +1,12 @@
 use std::collections::HashMap;
 
 use common::entities::snake::Snake;
+use u64_id::U64Id;
 
 /// For identifying clients on the server and among themselves
-type Id = u64;
+pub type EntityId = u64;
 
-type EntityMap = HashMap<Id, Snake>;
+type EntityMap = HashMap<EntityId, Snake>;
 
 pub struct EntityManager {
     pub entities: EntityMap,
@@ -20,20 +21,18 @@ impl EntityManager {
 
     // -- Wrappers --
     pub fn add(&mut self) {
-        // TODO: add UUID generation or something like that
-        let k = 5; // TODO: test variant
-        self.entities.insert(k, Snake::new());
+        self.entities.insert(U64Id::new().inner(), Snake::new());
     }
 
-    pub fn remove(&mut self, id: Id) {
+    pub fn remove(&mut self, id: EntityId) {
         self.entities.remove(&id);
     }
 
-    pub fn get(&self, id: Id) -> Option<&Snake> {
+    pub fn get(&self, id: EntityId) -> Option<&Snake> {
         self.entities.get(&id)
     }
 
-    pub fn get_mut(&mut self, id: Id) -> Option<&mut Snake> {
+    pub fn get_mut(&mut self, id: EntityId) -> Option<&mut Snake> {
         self.entities.get_mut(&id)
     }
 

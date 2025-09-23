@@ -10,6 +10,8 @@ pub struct PhysicsSystem;
 impl PhysicsSystem {
     // TODO: physics tick
     pub fn tick() {
-        // IDEA:
+        // IDEA: make O(N**2) bad
+        // i need to propoganate presence system and make chunk
+        // oriented checks, maybe i need also make a multithreading
     }
 }

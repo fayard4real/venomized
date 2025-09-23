@@ -10,7 +10,7 @@ pub enum WorldError {
     NotMultipleOf16Error,
 }
 
-type ChunkId = u32; // Remove magic numbers
+pub type ChunkId = u32; // Remove magic numbers
 
 type ChunkMap = HashMap<ChunkId, Chunk>;
 

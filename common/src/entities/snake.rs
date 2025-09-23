@@ -1,6 +1,13 @@
 use std::collections::VecDeque;
 
-use crate::{entities::types::Direction, world::types::GridPos};
+use crate::world::types::GridPos;
+
+pub enum Direction {
+    North,
+    South,
+    West,
+    East,
+}
 
 /// The main entity in the game,
 /// which is stored on both the

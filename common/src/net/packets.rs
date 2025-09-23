@@ -3,9 +3,12 @@
 //!
 //! Also provide decode/encode methods for packets
 
-use protocol::primitives::{prefixed_array::PrefixedArray, varint::VarInt, varlong::VarLong};
+use protocol::primitives::{
+    byte::Byte, prefixed_array::PrefixedArray, uvarint::UVarInt, varint::VarInt, varlong::VarLong,
+};
 
-use crate::net::types::Id;
+/// An alias for Entity Id in the game, to remove magic number
+pub type Id = VarLong;
 
 // #[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize, num_enum::TryFromPrimitive)]
 pub enum LoginServerbound {
@@ -79,7 +82,7 @@ pub enum PlayClientbound {
 }
 
 // -- Type-safety aliases --
-// (zero structs haven't weight, its just like marker)
+// (empty structs haven't weight, its just like marker in compile time)
 pub struct Login;
 pub struct SetDrawDistanceConfigure;
 pub struct TurnSnake;
@@ -102,12 +105,15 @@ pub struct TurnSnakeData {}
 pub struct LoginSuccessData;
 pub struct ConfigureAcknowledgedData;
 pub struct SynchonizePositionAndDirectionData {
-    // TODO: x, y, direction
-    pub x: VarInt, // TODO: bad idea use signed integer for this things
-    pub y: VarInt,
+    pub x: UVarInt,
+    pub y: UVarInt,
+    pub direction: Byte,
 }
 pub struct SpawnEntityData {
-    pub id: Id, // TODO: add the absolute position x y and direction
+    pub id: Id,
+    pub x: UVarInt,
+    pub y: UVarInt,
+    pub direction: Byte,
 }
 pub struct RemoveEntitiesData {
     pub entities: PrefixedArray<Id>,
