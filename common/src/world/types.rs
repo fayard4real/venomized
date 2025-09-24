@@ -1,3 +1,4 @@
+#[derive(PartialEq, Clone, Debug)]
 pub struct GridPos {
     pub x: u32,
     pub y: u32,

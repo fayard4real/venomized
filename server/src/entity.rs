@@ -28,8 +28,8 @@ impl EntityManager {
         self.entities.remove(&id);
     }
 
-    pub fn get(&self, id: EntityId) -> Option<&Snake> {
-        self.entities.get(&id)
+    pub fn get(&self, id: &EntityId) -> Option<&Snake> {
+        self.entities.get(id)
     }
 
     pub fn get_mut(&mut self, id: EntityId) -> Option<&mut Snake> {

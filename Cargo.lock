@@ -873,6 +873,7 @@ version = "0.1.0"
 dependencies = [
  "common",
  "quinn",
+ "rand 0.8.5",
  "tokio",
  "u64-id",
 ]

@@ -1,4 +1,4 @@
-use crate::{systems::movement::MovementSystem, world::World};
+use crate::{systems::{movement::{MovementEvent, MovementSystem}, physics::{PhysicsEvent, PhysicsSystem}, presence::{PresenceEvent, PresenceSystem}}, world::World};
 
 pub struct Game {
     world: World, // contains chunks
@@ -12,9 +12,20 @@ impl Game {
     }
 
     pub fn tick(&mut self) {
-        // temp example 4real, im not sure its working
-        MovementSystem::tick(&mut self.world.entity_manager);
+        
+        // just init presence system
+        let mut presence_system = PresenceSystem::new();
 
-        // TODO: movement, physics, some another things like apple spawn
+        // events
+        let mut movement_events: Vec<MovementEvent> = Vec::new();
+        let mut presence_events: Vec<PresenceEvent> = Vec::new();
+        let mut physics_events: Vec<PhysicsEvent> = Vec::new();
+        
+        loop {
+            MovementSystem::tick(&mut self.world.entity_manager, &mut movement_events);
+            presence_system.tick(&mut self.world.world, &movement_events[..], &mut presence_events);
+            PhysicsSystem::tick(&mut presence_system, &mut self.world.entity_manager, &mut self.world.world, &mut physics_events);
+        }
+
     }
 }
